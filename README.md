@@ -27,6 +27,10 @@ DELETE /api/books/1 - delete
 curl http://localhost:8080/api/books
 ```
 
+![Postman - Collection overview](images/postman-collection.png)
+
+![Postman - Delete book (ID 1)](images/postman-delete-book.png)
+
 ### Students `/api/students`
 
 GET /api/students
@@ -107,3 +111,7 @@ Example response:
 201 - Created  
 204 - Deleted
 404 - Not found
+
+## Terminal test output
+
+![PowerShell test output](images/terminal-powershell-tests.png)
