@@ -1,8 +1,5 @@
 package com.restapi.model.library;
 
-/**
- * Book class representing a book in the library management system
- */
 public class Book {
     private Long id;
     private String title;
@@ -10,7 +7,6 @@ public class Book {
     private String isbn;
     private int publicationYear;
 
-    // Constructors
     public Book() {}
 
     public Book(Long id, String title, String author, String isbn, int publicationYear) {
@@ -21,7 +17,6 @@ public class Book {
         this.publicationYear = publicationYear;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

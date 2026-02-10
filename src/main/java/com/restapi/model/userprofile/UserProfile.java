@@ -1,8 +1,5 @@
 package com.restapi.model.userprofile;
 
-/**
- * UserProfile class representing a user profile in the system
- */
 public class UserProfile {
     private Long userId;
     private String username;
@@ -13,7 +10,6 @@ public class UserProfile {
     private String bio;
     private boolean active;
 
-    // Constructors
     public UserProfile() {}
 
     public UserProfile(Long userId, String username, String email, String fullName, int age, String country, String bio, boolean active) {
@@ -27,7 +23,6 @@ public class UserProfile {
         this.active = active;
     }
 
-    // Getters and Setters
     public Long getUserId() {
         return userId;
     }

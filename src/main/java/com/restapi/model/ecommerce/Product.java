@@ -1,8 +1,5 @@
 package com.restapi.model.ecommerce;
 
-/**
- * Product class representing a product in the e-commerce catalog
- */
 public class Product {
     private Long productId;
     private String name;
@@ -12,7 +9,6 @@ public class Product {
     private int stockQuantity;
     private String brand;
 
-    // Constructors
     public Product() {}
 
     public Product(Long productId, String name, String description, Double price, String category, int stockQuantity, String brand) {
@@ -25,7 +21,6 @@ public class Product {
         this.brand = brand;
     }
 
-    // Getters and Setters
     public Long getProductId() {
         return productId;
     }

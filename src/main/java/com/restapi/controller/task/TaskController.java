@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * TaskController for managing tasks in a to-do list system
- */
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
@@ -19,7 +16,6 @@ public class TaskController {
     private List<Task> tasks = new ArrayList<>();
     private Long nextId = 6L;
 
-    // Initialize sample data
     public TaskController() {
         tasks.add(new Task(1L, "Complete Project", "Finish the Spring Boot project", false, "HIGH", "2026-02-15"));
         tasks.add(new Task(2L, "Review Code", "Review team's code changes", false, "MEDIUM", "2026-02-12"));
@@ -28,17 +24,10 @@ public class TaskController {
         tasks.add(new Task(5L, "Team Meeting", "Attend weekly team meeting", false, "MEDIUM", "2026-02-11"));
     }
 
-    /**
-     * GET /api/tasks - Get all tasks
-     */
     @GetMapping
     public ResponseEntity<List<Task>> getAllTasks() {
         return ResponseEntity.ok(tasks);
     }
-
-    /**
-     * GET /api/tasks/{taskId} - Get task by ID
-     */
     @GetMapping("/{taskId}")
     public ResponseEntity<?> getTaskById(@PathVariable Long taskId) {
         return tasks.stream()
@@ -49,9 +38,6 @@ public class TaskController {
                         .body("Task with ID " + taskId + " not found"));
     }
 
-    /**
-     * GET /api/tasks/status - Get tasks by completion status
-     */
     @GetMapping("/status")
     public ResponseEntity<List<Task>> getTasksByStatus(@RequestParam boolean completed) {
         List<Task> results = tasks.stream()
@@ -64,9 +50,6 @@ public class TaskController {
         return ResponseEntity.ok(results);
     }
 
-    /**
-     * GET /api/tasks/priority/{priority} - Get tasks by priority
-     */
     @GetMapping("/priority/{priority}")
     public ResponseEntity<List<Task>> getTasksByPriority(@PathVariable String priority) {
         List<Task> results = tasks.stream()
@@ -79,9 +62,6 @@ public class TaskController {
         return ResponseEntity.ok(results);
     }
 
-    /**
-     * POST /api/tasks - Create new task
-     */
     @PostMapping
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
         task.setTaskId(nextId++);
@@ -89,9 +69,6 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(task);
     }
 
-    /**
-     * PUT /api/tasks/{taskId} - Update task
-     */
     @PutMapping("/{taskId}")
     public ResponseEntity<?> updateTask(@PathVariable Long taskId, @RequestBody Task updatedTask) {
         return tasks.stream()
@@ -109,9 +86,6 @@ public class TaskController {
                         .body("Task with ID " + taskId + " not found"));
     }
 
-    /**
-     * PATCH /api/tasks/{taskId}/complete - Mark task as completed
-     */
     @PatchMapping("/{taskId}/complete")
     public ResponseEntity<?> markTaskAsCompleted(@PathVariable Long taskId) {
         return tasks.stream()
@@ -125,9 +99,6 @@ public class TaskController {
                         .body("Task with ID " + taskId + " not found"));
     }
 
-    /**
-     * DELETE /api/tasks/{taskId} - Delete task
-     */
     @DeleteMapping("/{taskId}")
     public ResponseEntity<?> deleteTask(@PathVariable Long taskId) {
         boolean removed = tasks.removeIf(task -> task.getTaskId().equals(taskId));

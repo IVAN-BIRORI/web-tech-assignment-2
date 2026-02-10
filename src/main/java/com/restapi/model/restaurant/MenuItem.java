@@ -1,8 +1,5 @@
 package com.restapi.model.restaurant;
 
-/**
- * MenuItem class representing a menu item in the restaurant system
- */
 public class MenuItem {
     private Long id;
     private String name;
@@ -11,7 +8,6 @@ public class MenuItem {
     private String category;
     private boolean available;
 
-    // Constructors
     public MenuItem() {}
 
     public MenuItem(Long id, String name, String description, Double price, String category, boolean available) {
@@ -23,7 +19,6 @@ public class MenuItem {
         this.available = available;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

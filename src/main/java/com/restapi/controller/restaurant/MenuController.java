@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * MenuController for managing restaurant menu items
- */
 @RestController
 @RequestMapping("/api/menu")
 public class MenuController {
@@ -19,7 +16,6 @@ public class MenuController {
     private List<MenuItem> menuItems = new ArrayList<>();
     private Long nextId = 9L;
 
-    // Initialize sample data with 8 different items
     public MenuController() {
         menuItems.add(new MenuItem(1L, "Spring Rolls", "Crispy spring rolls with vegetables", 5.99, "Appetizer", true));
         menuItems.add(new MenuItem(2L, "Bruschetta", "Toasted bread with tomato and basil", 4.99, "Appetizer", true));
@@ -31,17 +27,11 @@ public class MenuController {
         menuItems.add(new MenuItem(8L, "Fresh Orange Juice", "Freshly squeezed orange juice", 4.99, "Beverage", true));
     }
 
-    /**
-     * GET /api/menu - Get all menu items
-     */
     @GetMapping
     public ResponseEntity<List<MenuItem>> getAllMenuItems() {
         return ResponseEntity.ok(menuItems);
     }
 
-    /**
-     * GET /api/menu/{id} - Get specific menu item
-     */
     @GetMapping("/{id}")
     public ResponseEntity<?> getMenuItemById(@PathVariable Long id) {
         return menuItems.stream()
@@ -52,9 +42,6 @@ public class MenuController {
                         .body("Menu item with ID " + id + " not found"));
     }
 
-    /**
-     * GET /api/menu/category/{category} - Get items by category
-     */
     @GetMapping("/category/{category}")
     public ResponseEntity<List<MenuItem>> getItemsByCategory(@PathVariable String category) {
         List<MenuItem> results = menuItems.stream()
@@ -67,9 +54,6 @@ public class MenuController {
         return ResponseEntity.ok(results);
     }
 
-    /**
-     * GET /api/menu/available - Get only available items
-     */
     @GetMapping("/available")
     public ResponseEntity<List<MenuItem>> getAvailableItems(@RequestParam(defaultValue = "true") boolean available) {
         List<MenuItem> results = menuItems.stream()
@@ -82,9 +66,6 @@ public class MenuController {
         return ResponseEntity.ok(results);
     }
 
-    /**
-     * GET /api/menu/search - Search menu items by name
-     */
     @GetMapping("/search")
     public ResponseEntity<List<MenuItem>> searchByName(@RequestParam String name) {
         List<MenuItem> results = menuItems.stream()
@@ -97,9 +78,6 @@ public class MenuController {
         return ResponseEntity.ok(results);
     }
 
-    /**
-     * POST /api/menu - Add new menu item
-     */
     @PostMapping
     public ResponseEntity<MenuItem> addMenuItem(@RequestBody MenuItem menuItem) {
         menuItem.setId(nextId++);
@@ -107,9 +85,6 @@ public class MenuController {
         return ResponseEntity.status(HttpStatus.CREATED).body(menuItem);
     }
 
-    /**
-     * PUT /api/menu/{id}/availability - Toggle item availability
-     */
     @PutMapping("/{id}/availability")
     public ResponseEntity<?> toggleAvailability(@PathVariable Long id) {
         return menuItems.stream()
@@ -123,9 +98,6 @@ public class MenuController {
                         .body("Menu item with ID " + id + " not found"));
     }
 
-    /**
-     * DELETE /api/menu/{id} - Remove menu item
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMenuItem(@PathVariable Long id) {
         boolean removed = menuItems.removeIf(item -> item.getId().equals(id));

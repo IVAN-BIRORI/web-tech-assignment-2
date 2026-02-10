@@ -1,8 +1,5 @@
 package com.restapi.model.student;
 
-/**
- * Student class representing a student in the registration system
- */
 public class Student {
     private Long studentId;
     private String firstName;
@@ -11,7 +8,6 @@ public class Student {
     private String major;
     private Double gpa;
 
-    // Constructors
     public Student() {}
 
     public Student(Long studentId, String firstName, String lastName, String email, String major, Double gpa) {
@@ -23,7 +19,6 @@ public class Student {
         this.gpa = gpa;
     }
 
-    // Getters and Setters
     public Long getStudentId() {
         return studentId;
     }

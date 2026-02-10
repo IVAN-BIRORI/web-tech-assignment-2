@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * BookController for managing library books
- */
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
@@ -19,24 +16,17 @@ public class BookController {
     private List<Book> books = new ArrayList<>();
     private Long nextId = 4L;
 
-    // Initialize sample data
     public BookController() {
         books.add(new Book(1L, "Clean Code", "Robert Martin", "978-0132350884", 2008));
         books.add(new Book(2L, "The Pragmatic Programmer", "David Thomas", "978-0201616224", 1999));
         books.add(new Book(3L, "Design Patterns", "Gang of Four", "978-0201633610", 1994));
     }
 
-    /**
-     * GET /api/books - Retrieve all books
-     */
     @GetMapping
     public ResponseEntity<List<Book>> getAllBooks() {
         return ResponseEntity.ok(books);
     }
 
-    /**
-     * GET /api/books/{id} - Retrieve a specific book by ID
-     */
     @GetMapping("/{id}")
     public ResponseEntity<?> getBookById(@PathVariable Long id) {
         return books.stream()
@@ -47,9 +37,6 @@ public class BookController {
                         .body("Book with ID " + id + " not found"));
     }
 
-    /**
-     * GET /api/books/search - Search books by title
-     */
     @GetMapping("/search")
     public ResponseEntity<List<Book>> searchByTitle(@RequestParam String title) {
         List<Book> results = books.stream()
@@ -62,9 +49,6 @@ public class BookController {
         return ResponseEntity.ok(results);
     }
 
-    /**
-     * POST /api/books - Add a new book
-     */
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         book.setId(nextId++);
@@ -72,9 +56,6 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(book);
     }
 
-    /**
-     * DELETE /api/books/{id} - Delete a book by ID
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBook(@PathVariable Long id) {
         boolean removed = books.removeIf(book -> book.getId().equals(id));

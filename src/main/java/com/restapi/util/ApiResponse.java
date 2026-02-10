@@ -1,14 +1,10 @@
 package com.restapi.util;
 
-/**
- * ApiResponse wrapper class for consistent API responses
- */
 public class ApiResponse<T> {
     private boolean success;
     private String message;
     private T data;
 
-    // Constructors
     public ApiResponse() {}
 
     public ApiResponse(boolean success, String message, T data) {
@@ -17,7 +13,6 @@ public class ApiResponse<T> {
         this.data = data;
     }
 
-    // Getters and Setters
     public boolean isSuccess() {
         return success;
     }

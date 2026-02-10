@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * StudentController for managing student registration and information
- */
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
@@ -19,7 +16,6 @@ public class StudentController {
     private List<Student> students = new ArrayList<>();
     private Long nextId = 6L;
 
-    // Initialize sample data
     public StudentController() {
         students.add(new Student(1L, "John", "Doe", "john@example.com", "Computer Science", 3.8));
         students.add(new Student(2L, "Jane", "Smith", "jane@example.com", "Computer Science", 3.9));
@@ -28,17 +24,11 @@ public class StudentController {
         students.add(new Student(5L, "Charlie", "Davis", "charlie@example.com", "Computer Science", 3.4));
     }
 
-    /**
-     * GET /api/students - Get all students
-     */
     @GetMapping
     public ResponseEntity<List<Student>> getAllStudents() {
         return ResponseEntity.ok(students);
     }
 
-    /**
-     * GET /api/students/{studentId} - Get student by ID
-     */
     @GetMapping("/{studentId}")
     public ResponseEntity<?> getStudentById(@PathVariable Long studentId) {
         return students.stream()
@@ -49,9 +39,6 @@ public class StudentController {
                         .body("Student with ID " + studentId + " not found"));
     }
 
-    /**
-     * GET /api/students/major/{major} - Get all students by major
-     */
     @GetMapping("/major/{major}")
     public ResponseEntity<List<Student>> getStudentsByMajor(@PathVariable String major) {
         List<Student> results = students.stream()
@@ -64,9 +51,6 @@ public class StudentController {
         return ResponseEntity.ok(results);
     }
 
-    /**
-     * GET /api/students/filter - Filter students with GPA greater than or equal to minimum
-     */
     @GetMapping("/filter")
     public ResponseEntity<List<Student>> filterStudentsByGpa(@RequestParam Double gpa) {
         List<Student> results = students.stream()
@@ -79,9 +63,6 @@ public class StudentController {
         return ResponseEntity.ok(results);
     }
 
-    /**
-     * POST /api/students - Register a new student
-     */
     @PostMapping
     public ResponseEntity<Student> registerStudent(@RequestBody Student student) {
         student.setStudentId(nextId++);
@@ -89,9 +70,6 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(student);
     }
 
-    /**
-     * PUT /api/students/{studentId} - Update student information
-     */
     @PutMapping("/{studentId}")
     public ResponseEntity<?> updateStudent(@PathVariable Long studentId, @RequestBody Student updatedStudent) {
         return students.stream()

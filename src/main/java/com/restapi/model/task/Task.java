@@ -1,17 +1,13 @@
 package com.restapi.model.task;
 
-/**
- * Task class representing a task in the task management system
- */
 public class Task {
     private Long taskId;
     private String title;
     private String description;
     private boolean completed;
     private String priority;
-    private String dueDate; // format: "YYYY-MM-DD"
+    private String dueDate;
 
-    // Constructors
     public Task() {}
 
     public Task(Long taskId, String title, String description, boolean completed, String priority, String dueDate) {
@@ -23,7 +19,6 @@ public class Task {
         this.dueDate = dueDate;
     }
 
-    // Getters and Setters
     public Long getTaskId() {
         return taskId;
     }

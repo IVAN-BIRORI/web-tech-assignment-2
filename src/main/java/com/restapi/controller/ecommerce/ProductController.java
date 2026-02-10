@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * ProductController for managing e-commerce product catalog
- */
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
@@ -19,7 +16,6 @@ public class ProductController {
     private List<Product> products = new ArrayList<>();
     private Long nextId = 11L;
 
-    // Initialize sample data with 10 products
     public ProductController() {
         products.add(new Product(1L, "Laptop Dell XPS", "High-performance laptop with Intel i7", 1299.99, "Electronics", 5, "Dell"));
         products.add(new Product(2L, "iPhone 15", "Latest Apple smartphone with 5G", 999.99, "Electronics", 10, "Apple"));
@@ -33,14 +29,10 @@ public class ProductController {
         products.add(new Product(10L, "Gaming Mouse", "RGB gaming mouse with precision sensor", 79.99, "Electronics", 0, "Corsair"));
     }
 
-    /**
-     * GET /api/products - Get all products (with optional pagination)
-     */
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int limit) {
-        // Simple pagination logic
         int startIndex = (page - 1) * limit;
         List<Product> paginatedProducts = products.stream()
                 .skip(startIndex)
@@ -50,9 +42,6 @@ public class ProductController {
         return ResponseEntity.ok(paginatedProducts);
     }
 
-    /**
-     * GET /api/products/{productId} - Get product details
-     */
     @GetMapping("/{productId}")
     public ResponseEntity<?> getProductById(@PathVariable Long productId) {
         return products.stream()
@@ -63,9 +52,6 @@ public class ProductController {
                         .body("Product with ID " + productId + " not found"));
     }
 
-    /**
-     * GET /api/products/category/{category} - Get products by category
-     */
     @GetMapping("/category/{category}")
     public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable String category) {
         List<Product> results = products.stream()
@@ -78,9 +64,6 @@ public class ProductController {
         return ResponseEntity.ok(results);
     }
 
-    /**
-     * GET /api/products/brand/{brand} - Get products by brand
-     */
     @GetMapping("/brand/{brand}")
     public ResponseEntity<List<Product>> getProductsByBrand(@PathVariable String brand) {
         List<Product> results = products.stream()
@@ -93,9 +76,6 @@ public class ProductController {
         return ResponseEntity.ok(results);
     }
 
-    /**
-     * GET /api/products/search - Search products by keyword
-     */
     @GetMapping("/search")
     public ResponseEntity<List<Product>> searchProducts(@RequestParam String keyword) {
         List<Product> results = products.stream()
@@ -109,9 +89,6 @@ public class ProductController {
         return ResponseEntity.ok(results);
     }
 
-    /**
-     * GET /api/products/price-range - Get products within price range
-     */
     @GetMapping("/price-range")
     public ResponseEntity<List<Product>> getProductsByPriceRange(
             @RequestParam Double min,
@@ -126,9 +103,6 @@ public class ProductController {
         return ResponseEntity.ok(results);
     }
 
-    /**
-     * GET /api/products/in-stock - Get products with stock quantity > 0
-     */
     @GetMapping("/in-stock")
     public ResponseEntity<List<Product>> getInStockProducts() {
         List<Product> results = products.stream()
@@ -141,9 +115,6 @@ public class ProductController {
         return ResponseEntity.ok(results);
     }
 
-    /**
-     * POST /api/products - Add new product
-     */
     @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
         product.setProductId(nextId++);
@@ -151,9 +122,6 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
-    /**
-     * PUT /api/products/{productId} - Update product details
-     */
     @PutMapping("/{productId}")
     public ResponseEntity<?> updateProduct(@PathVariable Long productId, @RequestBody Product updatedProduct) {
         return products.stream()
@@ -172,9 +140,6 @@ public class ProductController {
                         .body("Product with ID " + productId + " not found"));
     }
 
-    /**
-     * PATCH /api/products/{productId}/stock - Update stock quantity
-     */
     @PatchMapping("/{productId}/stock")
     public ResponseEntity<?> updateStock(@PathVariable Long productId, @RequestParam int quantity) {
         return products.stream()
@@ -188,9 +153,6 @@ public class ProductController {
                         .body("Product with ID " + productId + " not found"));
     }
 
-    /**
-     * DELETE /api/products/{productId} - Delete product
-     */
     @DeleteMapping("/{productId}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long productId) {
         boolean removed = products.removeIf(product -> product.getProductId().equals(productId));
