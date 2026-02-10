@@ -37,6 +37,39 @@ This is a single Spring Boot app that exposes six small, self‑contained APIs. 
 - Fast to run and grade; no DB or extra layers.
 - Each domain is independent, so you can test or extend one without touching others.
 
+## Project structure
+```
+second assignment/
+├─ pom.xml
+├─ README.md
+├─ .gitignore
+├─ images/
+│  ├─ postman-collection.png
+│  ├─ postman-delete-book.png
+│  └─ terminal-powershell-tests.png
+├─ src/
+│  ├─ main/
+│  │  ├─ java/com/restapi/
+│  │  │  ├─ RestApiApplication.java
+│  │  │  ├─ controller/
+│  │  │  │  ├─ library/BookController.java
+│  │  │  │  ├─ student/StudentController.java
+│  │  │  │  ├─ restaurant/MenuController.java
+│  │  │  │  ├─ ecommerce/ProductController.java
+│  │  │  │  ├─ task/TaskController.java
+│  │  │  │  └─ userprofile/UserProfileController.java
+│  │  │  ├─ model/
+│  │  │  │  ├─ library/Book.java
+│  │  │  │  ├─ student/Student.java
+│  │  │  │  ├─ restaurant/MenuItem.java
+│  │  │  │  ├─ ecommerce/Product.java
+│  │  │  │  ├─ task/Task.java
+│  │  │  │  └─ userprofile/UserProfile.java
+│  │  │  └─ util/ApiResponse.java
+│  │  └─ resources/application.properties
+│  └─ test/ (empty)
+```
+
 ## APIs
 
 ### Books `/api/books`
