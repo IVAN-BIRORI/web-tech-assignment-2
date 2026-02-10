@@ -13,6 +13,30 @@ mvn spring-boot:run
 
 Runs on http://localhost:8080
 
+## What this project is (in plain words)
+This is a single Spring Boot app that exposes six small, self‑contained APIs. There’s no database — each controller keeps an in‑memory list so you can test endpoints quickly without extra setup.
+
+### Sketch map (big picture)
+- Entry point: `RestApiApplication` boots the app.
+- Models live in `model/*` and are simple POJOs.
+- Controllers live in `controller/*` and own their own sample data lists.
+- Base paths:
+  - Books → `/api/books`
+  - Students → `/api/students`
+  - Menu → `/api/menu`
+  - Products → `/api/products`
+  - Tasks → `/api/tasks`
+  - Users → `/api/users` (wrapped responses using `util/ApiResponse`)
+
+### How requests flow
+1. A request hits a controller method (e.g., `GET /api/books`).
+2. The controller reads/writes its in‑memory list, often with Java Streams for filtering.
+3. The method returns either the entity/list (200), a created entity (201), or no content on delete (204). If not found, it returns 404.
+
+### Why this structure?
+- Fast to run and grade; no DB or extra layers.
+- Each domain is independent, so you can test or extend one without touching others.
+
 ## APIs
 
 ### Books `/api/books`
@@ -27,9 +51,6 @@ DELETE /api/books/1 - delete
 curl http://localhost:8080/api/books
 ```
 
-![Postman - Collection overview](images/postman-collection.png)
-
-![Postman - Delete book (ID 1)](images/postman-delete-book.png)
 
 ### Students `/api/students`
 
@@ -112,6 +133,10 @@ Example response:
 204 - Deleted
 404 - Not found
 
-## Terminal test output
+## Screenshots (backup after the explanation)
+
+![Postman - Collection overview](images/postman-collection.png)
+
+![Postman - Delete book (ID 1)](images/postman-delete-book.png)
 
 ![PowerShell test output](images/terminal-powershell-tests.png)
