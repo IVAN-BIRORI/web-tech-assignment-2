@@ -35,3 +35,6 @@ dependency-reduced-pom.xml
 *.log
 *.class
 .env
+*.zip
+restfullApiAssignment/
+rrestfullApiAssignment*/

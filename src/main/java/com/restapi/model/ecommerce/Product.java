@@ -1,17 +1,42 @@
 package com.restapi.model.ecommerce;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+
+@Entity
+@Table(name = "product")
 public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long productId;
+
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "price")
     private Double price;
+
+    @Column(name = "category")
     private String category;
-    private int stockQuantity;
+
+    @Column(name = "stock_quantity")
+    private Integer stockQuantity;
+
+    @Column(name = "brand")
     private String brand;
 
     public Product() {}
 
-    public Product(Long productId, String name, String description, Double price, String category, int stockQuantity, String brand) {
+    public Product(Long productId, String name, String description, Double price, String category, Integer stockQuantity, String brand) {
         this.productId = productId;
         this.name = name;
         this.description = description;
@@ -61,11 +86,11 @@ public class Product {
         this.category = category;
     }
 
-    public int getStockQuantity() {
+    public Integer getStockQuantity() {
         return stockQuantity;
     }
 
-    public void setStockQuantity(int stockQuantity) {
+    public void setStockQuantity(Integer stockQuantity) {
         this.stockQuantity = stockQuantity;
     }
 

@@ -1,175 +1,239 @@
-# Spring Boot REST API Project
+# E-Commerce Product API
 
-REST API built with Spring Boot for my Web Tech class. Has 6 different APIs - books, students, menu items, products, tasks and user profiles.
+A RESTful API built with Spring Boot for managing e-commerce products with PostgreSQL database integration.
 
-## Setup
+**Author:** BIRORI KANYAMIBWA IVAN  
+**Student ID:** 27255  
+**Branch:** restFull_api_27255
 
-Need Java 17 and Maven installed.
+## Features
+
+- Complete CRUD operations for products
+- Search and filter products by category, brand, price range
+- Pagination support
+- Stock management
+- Duplicate product validation
+- PostgreSQL database persistence
+
+## Technologies Used
+
+- Spring Boot 3.2.0
+- Spring Data JPA
+- PostgreSQL
+- Maven
+- Java 17
+
+## Prerequisites
+
+- Java 17 or higher
+- Maven 3.6+
+- PostgreSQL
+- Postman (for testing)
+
+## Database Setup
+
+Create PostgreSQL database:
+```sql
+CREATE DATABASE ecommerce_db;
+```
+
+Update `src/main/resources/application.properties` with your PostgreSQL password:
+```
+spring.datasource.password=YOUR_PASSWORD
+```
+
+## Running the Application
 
 ```
-mvn clean install
 mvn spring-boot:run
 ```
 
-Runs on http://localhost:8080
+Application runs on: http://localhost:8080
 
-## What this project is (in plain words)
-This is a single Spring Boot app that exposes six small, self‑contained APIs. There’s no database — each controller keeps an in‑memory list so you can test endpoints quickly without extra setup.
+## API Endpoints
 
-### Sketch map (big picture)
-- Entry point: `RestApiApplication` boots the app.
-- Models live in `model/*` and are simple POJOs.
-- Controllers live in `controller/*` and own their own sample data lists.
-- Base paths:
-  - Books → `/api/books`
-  - Students → `/api/students`
-  - Menu → `/api/menu`
-  - Products → `/api/products`
-  - Tasks → `/api/tasks`
-  - Users → `/api/users` (wrapped responses using `util/ApiResponse`)
-
-### How requests flow
-1. A request hits a controller method (e.g., `GET /api/books`).
-2. The controller reads/writes its in‑memory list, often with Java Streams for filtering.
-3. The method returns either the entity/list (200), a created entity (201), or no content on delete (204). If not found, it returns 404.
-
-### Why this structure?
-- Fast to run and grade; no DB or extra layers.
-- Each domain is independent, so you can test or extend one without touching others.
-
-## Project structure
-```
-second assignment/
-├─ pom.xml
-├─ README.md
-├─ .gitignore
-├─ images/
-│  ├─ postman-collection.png
-│  ├─ postman-delete-book.png
-│  └─ terminal-powershell-tests.png
-├─ src/
-│  ├─ main/
-│  │  ├─ java/com/restapi/
-│  │  │  ├─ RestApiApplication.java
-│  │  │  ├─ controller/
-│  │  │  │  ├─ library/BookController.java
-│  │  │  │  ├─ student/StudentController.java
-│  │  │  │  ├─ restaurant/MenuController.java
-│  │  │  │  ├─ ecommerce/ProductController.java
-│  │  │  │  ├─ task/TaskController.java
-│  │  │  │  └─ userprofile/UserProfileController.java
-│  │  │  ├─ model/
-│  │  │  │  ├─ library/Book.java
-│  │  │  │  ├─ student/Student.java
-│  │  │  │  ├─ restaurant/MenuItem.java
-│  │  │  │  ├─ ecommerce/Product.java
-│  │  │  │  ├─ task/Task.java
-│  │  │  │  └─ userprofile/UserProfile.java
-│  │  │  └─ util/ApiResponse.java
-│  │  └─ resources/application.properties
-│  └─ test/ (empty)
-```
-
-## APIs
-
-### Books `/api/books`
-
-GET /api/books - all books
-GET /api/books/1 - single book
-GET /api/books/search?title=code - search
-POST /api/books - add book
-DELETE /api/books/1 - delete
+### 1. Get All Products
+**GET** `/api/products`
 
 ```
-curl http://localhost:8080/api/books
+http://localhost:8080/api/products
 ```
 
+![Get all products](images/getall-products.png)
 
-### Students `/api/students`
+### 2. Get Products with Pagination
+**GET** `/api/products?page={page}&limit={limit}`
 
-GET /api/students
-GET /api/students/1
-GET /api/students/major/Computer%20Science
-GET /api/students/filter?gpa=3.5
-POST /api/students
-PUT /api/students/1
-
-### Menu `/api/menu`
-
-GET /api/menu
-GET /api/menu/1
-GET /api/menu/category/Appetizer
-GET /api/menu/available?available=true
-GET /api/menu/search?name=salmon
-POST /api/menu
-PUT /api/menu/1/availability - toggles available
-DELETE /api/menu/1
-
-### Products `/api/products`
-
-GET /api/products?page=1&limit=5
-GET /api/products/1
-GET /api/products/category/Electronics
-GET /api/products/brand/Apple
-GET /api/products/search?keyword=laptop
-GET /api/products/price-range?min=100&max=500
-GET /api/products/in-stock
-POST /api/products
-PUT /api/products/1
-PATCH /api/products/1/stock?quantity=10
-DELETE /api/products/1
-
-Example:
 ```
-curl "http://localhost:8080/api/products/price-range?min=50&max=200"
+http://localhost:8080/api/products?page=0&limit=5
 ```
 
-### Tasks `/api/tasks`
+![Get products with pagination](images/pagination.png)
 
-GET /api/tasks
-GET /api/tasks/1
-GET /api/tasks/status?completed=false
-GET /api/tasks/priority/HIGH
-POST /api/tasks
-PUT /api/tasks/1
-PATCH /api/tasks/1/complete
-DELETE /api/tasks/1
+### 3. Get Product by ID
+**GET** `/api/products/{id}`
 
-### Users `/api/users`
+```
+http://localhost:8080/api/products/2
+```
 
-Uses ApiResponse wrapper - returns {success, message, data}
+![Get product by ID](images/get-by-id.png)
 
-GET /api/users
-GET /api/users/1
-GET /api/users/search/username?username=john_doe
-GET /api/users/country/USA
-GET /api/users/age-range?minAge=25&maxAge=35
-POST /api/users
-PUT /api/users/1
-PATCH /api/users/1/activate
-PATCH /api/users/1/deactivate
-DELETE /api/users/1
+### 4. Get Products by Category
+**GET** `/api/products/category/{category}`
 
-Example response:
+```
+http://localhost:8080/api/products/category/Electronics
+```
+
+![Get product by category](images/get-by-category.png)
+
+### 5. Get Products by Brand
+**GET** `/api/products/brand/{brand}`
+
+```
+http://localhost:8080/api/products/brand/Apple
+```
+
+![Get product by brand](images/get-by-brand.png)
+
+### 6. Search Products by Keyword
+**GET** `/api/products/search?keyword={keyword}`
+
+```
+http://localhost:8080/api/products/search?keyword=phone
+```
+
+![Search product by keyword](images/search-keyword.png)
+
+### 7. Get Products by Price Range
+**GET** `/api/products/price-range?min={min}&max={max}`
+
+```
+http://localhost:8080/api/products/price-range?min=100&max=500
+```
+
+![Get product by price range](images/price-range.png)
+
+### 8. Get Products by BOTH Price Range and Brand
+**GET** `/api/products/filter?price={price}&brand={brand}`
+
+```
+http://localhost:8080/api/products/filter?price=999.99&brand=Apple
+```
+
+![Search both by price and brand](images/filter-price-brand.png)
+
+### 9. Get In-Stock Products
+**GET** `/api/products/in-stock`
+
+```
+http://localhost:8080/api/products/in-stock
+```
+
+![Get in-stock products](images/in-stock.png)
+
+### 10. Add New Product
+**POST** `/api/products`
+
+Headers: `Content-Type: application/json`
+
+Body:
 ```json
 {
-  "success": true,
-  "message": "Users retrieved successfully",
-  "data": [...]
+  "name": "iPhone 15",
+  "description": "Latest Apple smartphone",
+  "price": 999.99,
+  "category": "Electronics",
+  "stockQuantity": 50,
+  "brand": "Apple"
 }
 ```
 
-## Status Codes
+Response: `201 Created`
 
-200 - OK
-201 - Created  
-204 - Deleted
-404 - Not found
+![Add new product](images/add-product.png)
 
-## Screenshots (backup after the explanation)
+### 11. Update Product
+**PUT** `/api/products/{id}`
 
-![Postman - Collection overview](images/postman-collection.png)
+Headers: `Content-Type: application/json`
 
-![Postman - Delete book (ID 1)](images/postman-delete-book.png)
+Body:
+```json
+{
+  "name": "iPhone 15 Pro",
+  "description": "Latest Apple flagship smartphone",
+  "price": 1199.99,
+  "category": "Electronics",
+  "stockQuantity": 30,
+  "brand": "Apple"
+}
+```
 
-![PowerShell test output](images/terminal-powershell-tests.png)
+Response: `200 OK` or `404 Not Found`
+
+![Update product](images/update-product.png)
+
+### 12. Update Stock Quantity
+**PATCH** `/api/products/{id}/stock?quantity={quantity}`
+
+```
+http://localhost:8080/api/products/1/stock?quantity=100
+```
+
+Response: `200 OK` or `404 Not Found`
+
+![Update stock quantity](images/update-stock.png)
+
+### 13. Delete Product
+**DELETE** `/api/products/{id}`
+
+```
+http://localhost:8080/api/products/1
+```
+
+Response: `204 No Content` or `404 Not Found`
+
+![Delete product](images/delete-product.png)
+
+## HTTP Status Codes
+
+- `200 OK` - Successful GET, PUT, PATCH requests
+- `201 Created` - Successful POST request
+- `204 No Content` - Successful DELETE request
+- `404 Not Found` - Resource not found
+- `409 Conflict` - Duplicate product name
+
+## Project Structure
+
+```
+src/main/java/com/restapi/
+├── RestApiApplication.java
+├── controller/
+│   └── ecommerce/
+│       └── ProductController.java
+├── model/
+│   └── ecommerce/
+│       └── Product.java
+├── repository/
+│   └── ecommerce/
+│       └── ProductRepository.java
+└── service/
+    └── ecommerce/
+        └── ProductService.java
+```
+
+## Database Schema
+
+**Table: product**
+
+| Column | Type | Constraints |
+|--------|------|-------------|
+| product_id | BIGINT | PRIMARY KEY, AUTO_INCREMENT |
+| name | VARCHAR | NOT NULL, UNIQUE |
+| description | VARCHAR | |
+| price | DOUBLE | |
+| category | VARCHAR | |
+| stock_quantity | INTEGER | |
+| brand | VARCHAR | |
